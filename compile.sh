@@ -1,0 +1,1 @@
+javac -classpath .:stanford-corenlp-3.5.2.jar:stanford-corenlp-3.5.2-models.jar:lucene-analyzers-common-5.3.1.jar:lucene-core-5.3.1.jar:lucene-queryparser-5.3.1.jar CommandLine.java
