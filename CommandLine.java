@@ -219,7 +219,7 @@ public class CommandLine {
         }
         // read all the files present inside the folder
         File[] listOfFiles = folder.listFiles();
-        System.out.println(Arrays.toString(listOfFiles));
+        // System.out.println(Arrays.toString(listOfFiles));
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 indexOneFile(writer, listOfFiles[i]);
@@ -231,7 +231,7 @@ public class CommandLine {
 
     // FUNCTION THAT PARSES THE CONTENT IN EACH DOC AND SENDS TITLE AND CONTENTS FOR INDEXING
     private static void indexOneFile(IndexWriter writer, File listOfFile) throws IOException {
-        System.out.println("File " + listOfFile.getName());
+        System.out.println("Indexing File " + listOfFile.getName());
 
         // String file = "sampledoc.txt";
         String file = listOfFile.getName();
@@ -381,7 +381,7 @@ public class CommandLine {
         String result="";
         int hitCount=0;
         int lineNumber=0;
-
+        int totalCount=0;
         QueryParser parser = new QueryParser(field, analyzer);
 //        QueryParser parser = (QueryParser.escape());
         while((strLine = br.readLine()) != null)   {
@@ -410,7 +410,7 @@ public class CommandLine {
                 }
 
                 Query query = parser.parse(quest);
-                System.out.println("Searching for: " + query.toString(field));
+               // System.out.println("Searching for: " + query.toString(field));
                 result = getTopHit(searcher,query,quest);
                 //doPagingSearch(in, searcher, query, hitsPerPage, raw, queries == null && queryString == null);
                 lineNumber++;
@@ -426,6 +426,7 @@ public class CommandLine {
                     System.out.println("CORRECT ANSWER");
                     hitCount++;
                 }
+                totalCount++;
                 lineNumber++;
             }
             else if(lineNumber%4==3)
@@ -435,7 +436,7 @@ public class CommandLine {
             }
 
         }
-        System.out.println("Total number of Hits: "+hitCount);
+        System.out.println("Total number of Hits: "+hitCount+" out of "+totalCount);
 
     }
 
@@ -445,7 +446,7 @@ public class CommandLine {
         TopDocs results = searcher.search(query, 5);
         ScoreDoc[] hits = results.scoreDocs;
         int numTotalHits = results.totalHits;
-        System.out.println(numTotalHits + " total matching documents");
+        // System.out.println(numTotalHits + " total matching documents");
 
         if(hits.length>0) {
             Document doc;
@@ -560,7 +561,7 @@ public class CommandLine {
 
 
         if (args.length<1 || (parseInput(args)!=1) ) {
-            System.out.println("Invalid options. Use -h for list of options.");
+            System.out.println("Invalid options. Please see README.txt for list of options.");
             return;
         }
 
@@ -571,11 +572,12 @@ public class CommandLine {
         System.out.println("analyzer: "+analyzerType);
         System.out.println("Lemmatization: "+isLemmatized);
         System.out.println("Current config: "+configs.toString());
+        System.out.println();
 
 
 //        String indexPath = "../index_EnglishAnalyzer1";
 //        String indexPath = "../index2";
-        String indexPath = "../index"+"_"+analyzerType.toString();
+        String indexPath = "index"+"_"+analyzerType.toString()+"_"+configs.toString();
 
         if(operation.toString().equals("INDEX"))
             IndexWiki(indexPath);
